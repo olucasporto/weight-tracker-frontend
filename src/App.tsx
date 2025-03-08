@@ -41,7 +41,8 @@ const App: React.FC = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh", // Centraliza verticalmente
-        backgroundColor: "#f4f4f4",
+        width: "100vw", // Garante que ocupa toda a tela
+        backgroundColor: "black", // Fundo preto
       }}
     >
       <div
@@ -52,7 +53,7 @@ const App: React.FC = () => {
           borderRadius: "10px",
           boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
           maxWidth: "400px",
-          width: "100%",
+          width: "90%", // Ajuste para telas menores
         }}
       >
         <h2 style={{ marginBottom: "20px" }}>Registre seu peso</h2>
