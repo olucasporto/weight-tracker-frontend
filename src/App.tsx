@@ -12,7 +12,7 @@ const App: React.FC = () => {
       return;
     }
 
-    setLoading(true); // Inicia o loading
+    setLoading(true);
 
     try {
       const response = await fetch(`${API_URL}/register_weight/`, {
@@ -25,12 +25,12 @@ const App: React.FC = () => {
         alert("Peso registrado com sucesso!");
         setWeight("");
       } else {
-        alert("Erro ao registrar peso. Verifique sua conexão.");
+        alert("Erro ao registrar peso.");
       }
     } catch (error) {
       alert("Erro ao conectar-se ao servidor.");
     } finally {
-      setLoading(false); // Finaliza o loading
+      setLoading(false);
     }
   };
 
@@ -40,9 +40,11 @@ const App: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh", // Centraliza verticalmente
-        width: "100vw", // Garante que ocupa toda a tela
-        backgroundColor: "black", // Fundo preto
+        minHeight: "100vh", // Garante altura total
+        width: "100vw",
+        backgroundColor: "black",
+        padding: "20px", // Evita que o conteúdo fique colado nas bordas
+        boxSizing: "border-box",
       }}
     >
       <div
@@ -53,7 +55,7 @@ const App: React.FC = () => {
           borderRadius: "10px",
           boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
           maxWidth: "400px",
-          width: "90%", // Ajuste para telas menores
+          width: "100%", // Agora pega 100% do espaço disponível dentro da tela
         }}
       >
         <h2 style={{ marginBottom: "20px" }}>Registre seu peso</h2>
@@ -65,18 +67,17 @@ const App: React.FC = () => {
           style={{
             padding: "10px",
             fontSize: "18px",
-            width: "100%",
+            width: "calc(100% - 20px)", // Ajusta para não estourar na direita
             textAlign: "center",
             borderRadius: "5px",
             border: "1px solid #ddd",
+            marginBottom: "10px", // Evita ficar grudado no botão
           }}
-          disabled={loading} // Bloqueia input enquanto carrega
+          disabled={loading}
         />
-        <br />
         <button
           onClick={sendWeight}
           style={{
-            marginTop: "10px",
             padding: "10px",
             fontSize: "18px",
             cursor: "pointer",
@@ -86,7 +87,7 @@ const App: React.FC = () => {
             borderRadius: "5px",
             width: "100%",
           }}
-          disabled={loading} // Desativa o botão enquanto carrega
+          disabled={loading}
         >
           {loading ? "Enviando..." : "Enviar Peso"}
         </button>
