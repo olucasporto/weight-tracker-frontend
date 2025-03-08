@@ -1,7 +1,10 @@
 import { useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const App: React.FC = () => {
   const [weight, setWeight] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const sendWeight = async () => {
     if (!weight) {
@@ -9,19 +12,25 @@ const App: React.FC = () => {
       return;
     }
 
-    const API_URL = import.meta.env.VITE_API_URL;
+    setLoading(true); // Inicia o loading
 
-    const response = await fetch(`${API_URL}/register_weight/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ weight: parseFloat(weight) }),
-    });
+    try {
+      const response = await fetch(`${API_URL}/register_weight/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ weight: parseFloat(weight) }),
+      });
 
-    if (response.ok) {
-      alert("Peso registrado com sucesso!");
-      setWeight("");
-    } else {
-      alert("Erro ao registrar peso.");
+      if (response.ok) {
+        alert("Peso registrado com sucesso!");
+        setWeight("");
+      } else {
+        alert("Erro ao registrar peso. Verifique sua conexão.");
+      }
+    } catch (error) {
+      alert("Erro ao conectar-se ao servidor.");
+    } finally {
+      setLoading(false); // Finaliza o loading
     }
   };
 
@@ -39,6 +48,7 @@ const App: React.FC = () => {
           width: "200px",
           textAlign: "center",
         }}
+        disabled={loading} // Bloqueia input enquanto carrega
       />
       <br />
       <button
@@ -48,10 +58,16 @@ const App: React.FC = () => {
           padding: "10px",
           fontSize: "18px",
           cursor: "pointer",
+          backgroundColor: loading ? "#ccc" : "#007bff",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
         }}
+        disabled={loading} // Desativa o botão enquanto carrega
       >
-        Enviar Peso
+        {loading ? "Enviando..." : "Enviar Peso"}
       </button>
+      {loading && <p>⏳ Processando...</p>}
     </div>
   );
 };

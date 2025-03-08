@@ -32,3 +32,4 @@ public/build/
 # Vite cache
 .vite/
 
+.env
